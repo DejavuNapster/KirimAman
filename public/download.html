@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unduh file — KirimAman</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f6f1e9">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="KirimAman, beranda">
+      <img src="/favicon.svg" alt="" width="28" height="28">
+      <span>Kirim<b>Aman</b></span>
+    </a>
+    <span class="badge-e2e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="11" rx="2.5"/></svg>Terenkripsi end-to-end</span>
+  </header>
+
+  <main class="layout single">
+    <section class="card wide" aria-live="polite">
+      <div id="loading" class="stage center">
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="muted">Membuka kiriman dan mendekripsi daftar file…</p>
+      </div>
+
+      <div id="ready" class="stage" hidden>
+        <p class="eyebrow">Ada file untuk Anda</p>
+        <h1 class="dl-title" id="dlTitle">0 file</h1>
+        <p class="muted" id="dlMeta"></p>
+        <blockquote id="dlNote" class="note" hidden></blockquote>
+        <ul id="dlList" class="file-list dl"></ul>
+        <button type="button" class="btn-primary" id="dlAll">
+          <span>Unduh semua</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg>
+        </button>
+        <p class="muted small center-text">File didekripsi di perangkat Anda saat diunduh.</p>
+      </div>
+
+      <div id="failed" class="stage center" hidden>
+        <div class="check fail"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></div>
+        <h2 id="failTitle">Tautan tidak bisa dibuka</h2>
+        <p class="muted" id="failDetail"></p>
+        <a class="btn-ghost" href="/">Kirim file sendiri</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>KirimAman tidak bisa membaca file ini. Hanya pemegang tautan lengkap yang bisa membukanya.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="/js/crypto.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/download.js"></script>
+</body>
+</html>

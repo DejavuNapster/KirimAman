@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KirimAman — Kirim file besar secara privat</title>
+  <meta name="description" content="Kirim file hingga 5 GB dengan enkripsi end-to-end. Tanpa akun, tautan kedaluwarsa otomatis.">
+  <meta name="theme-color" content="#f6f1e9">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="KirimAman, beranda">
+      <img src="/favicon.svg" alt="" width="28" height="28">
+      <span>Kirim<b>Aman</b></span>
+    </a>
+    <span class="badge-e2e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="11" rx="2.5"/></svg>Terenkripsi end-to-end</span>
+  </header>
+
+  <main class="layout">
+    <section class="intro">
+      <p class="eyebrow">Kirim file tanpa akun</p>
+      <h1>File Anda tetap <em>milik Anda</em>, bahkan saat dikirim.</h1>
+      <p class="lede">Seret file ke kotak di samping, lalu bagikan tautannya. File dikunci di perangkat Anda sebelum diunggah. Server kami hanya menyimpan data acak yang tidak bisa dibaca.</p>
+      <ul class="points">
+        <li><span class="dot">1</span><div><b>Terkunci di perangkat Anda</b>Enkripsi AES-256 berjalan di browser. Kuncinya hanya ada di tautan.</div></li>
+        <li><span class="dot">2</span><div><b>Hingga <span data-limit>5 GB</span> sekali kirim</b>Maksimal <span data-maxfiles>100</span> file atau folder, semua format.</div></li>
+        <li><span class="dot">3</span><div><b>Hilang dengan sendirinya</b>Tautan dan file dihapus otomatis setelah <span data-expiry>15</span> hari.</div></li>
+      </ul>
+    </section>
+
+    <section class="card" aria-live="polite">
+      <!-- Tahap 1: susun kiriman -->
+      <form id="compose" class="stage" novalidate>
+        <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Pilih file untuk dikirim">
+          <div class="dz-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div>
+          <p class="dz-title">Seret file ke sini</p>
+          <p class="dz-sub">atau <u>pilih file</u> · <button type="button" class="linkish" id="pickFolder">pilih folder</button></p>
+        </div>
+
+        <div id="filesPanel" class="files-panel" hidden>
+          <div class="files-head">
+            <span id="filesCount">0 item</span>
+            <div class="files-actions">
+              <button type="button" class="chip" id="addFiles">+ File</button>
+              <button type="button" class="chip" id="addFolder">+ Folder</button>
+            </div>
+          </div>
+          <ul id="fileList" class="file-list"></ul>
+          <div class="usage">
+            <div class="usage-bar"><span id="usageFill"></span></div>
+            <span id="usageText">0 B dari 5 GB</span>
+          </div>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Cara mengirim">
+          <button type="button" role="tab" aria-selected="true" data-mode="link">Dapatkan tautan</button>
+          <button type="button" role="tab" aria-selected="false" data-mode="email" id="modeEmail">Kirim lewat email</button>
+        </div>
+
+        <div id="emailFields" class="email-fields" hidden>
+          <label class="field">
+            <span>Kepada</span>
+            <div class="recipients" id="recipients">
+              <input id="recipientInput" type="email" placeholder="email@penerima.com" autocomplete="off">
+            </div>
+            <small>Tekan Enter atau koma untuk menambah. Maksimal <span data-maxrcpt>50</span> penerima.</small>
+          </label>
+          <label class="field">
+            <span>Email Anda</span>
+            <input id="senderInput" type="email" placeholder="nama@email.com" autocomplete="email">
+          </label>
+          <label class="field">
+            <span>Pesan <i>(opsional)</i></span>
+            <textarea id="messageInput" rows="3" maxlength="1000" placeholder="Tulis pesan singkat untuk penerima"></textarea>
+          </label>
+        </div>
+
+        <label id="noteField" class="field">
+          <span>Catatan untuk penerima <i>(opsional, ikut terenkripsi)</i></span>
+          <textarea id="noteInput" rows="2" maxlength="1000" placeholder="Misalnya: Ini file desain revisi ke-3"></textarea>
+        </label>
+
+        <button type="submit" class="btn-primary" id="sendBtn" disabled>
+          <span id="sendLabel">Buat tautan</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+
+      <!-- Tahap 2: proses -->
+      <div id="progress" class="stage center" hidden>
+        <div class="ring">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="52" class="ring-bg"/>
+            <circle cx="60" cy="60" r="52" class="ring-fg" id="ringFg"/>
+          </svg>
+          <span id="pct">0%</span>
+        </div>
+        <h2 id="progressTitle">Mengenkripsi &amp; mengunggah…</h2>
+        <p class="muted" id="progressDetail">Menyiapkan</p>
+        <p class="muted small">Biarkan tab ini tetap terbuka sampai selesai.</p>
+        <button type="button" class="btn-ghost" id="cancelBtn">Batalkan</button>
+      </div>
+
+      <!-- Tahap 3: selesai -->
+      <div id="done" class="stage center" hidden>
+        <div class="check"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2 id="doneTitle">Tautan siap dibagikan</h2>
+        <p class="muted" id="doneDetail"></p>
+        <div class="linkbox">
+          <input id="shareLink" readonly aria-label="Tautan unduhan">
+          <button type="button" class="btn-dark" id="copyBtn">Salin</button>
+        </div>
+        <p class="muted small">Siapa pun yang memegang tautan ini bisa membuka file. Bagikan hanya kepada orang yang Anda tuju.</p>
+        <button type="button" class="btn-ghost" id="againBtn">Kirim file lain</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Server tidak pernah melihat isi, nama file, maupun kunci Anda. File dihapus otomatis saat tautan kedaluwarsa.</p>
+  </footer>
+
+  <div id="dragOverlay" class="drag-overlay" hidden><p>Lepaskan untuk menambahkan file</p></div>
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <input type="file" id="fileInput" multiple hidden>
+  <input type="file" id="folderInput" webkitdirectory multiple hidden>
+
+  <script src="/js/crypto.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/send.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Dependensi
+node_modules/
+
+# Data kiriman terenkripsi (runtime)
+data/
+
+# Rahasia & konfigurasi lokal
+.env
+.env.*
+!.env.example
+CLAUDE.local.md
+
+# Arsip / salinan paket
+*.zip
+*.tar
+*.tar.gz
+
+# Log & berkas sementara
+*.log
+npm-debug.log*
+*.tmp
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
