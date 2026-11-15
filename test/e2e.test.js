@@ -197,6 +197,15 @@ async function receive(id, keyStr) {
     fresh.close();
   });
 
+  await test('versi aplikasi tersedia di /api/config dan sama dengan package.json', async () => {
+    const { version } = require('../package.json');
+    const r = await j('GET', '/api/config');
+    assert.strictEqual(r.status, 200);
+    assert.strictEqual(r.data.version, version);
+    const html = await (await fetch(base + '/')).text();
+    assert.ok(html.includes('data-version'), 'footer belum punya tempat versi');
+  });
+
   await test('halaman & berkas statis tersaji dengan header keamanan', async () => {
     for (const p of ['/', `/d/${sent.id}`, '/js/send.js', '/js/download.js', '/css/style.css', '/favicon.svg']) {
       const res = await fetch(base + p);

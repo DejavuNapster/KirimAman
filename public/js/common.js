@@ -82,5 +82,17 @@
     return span;
   }
 
-  root.KA = { formatBytes, formatDate, toast, api, el, iconNode };
+  // Konfigurasi server diambil sekali per halaman dan dipakai bersama (send.js juga memakainya).
+  const config = api('/api/config');
+  config
+    .then((cfg) => {
+      document.querySelectorAll('[data-version]').forEach((n) => {
+        if (!cfg.version) return;
+        n.textContent = 'KirimAman v' + cfg.version;
+        n.hidden = false;
+      });
+    })
+    .catch(() => {});
+
+  root.KA = { formatBytes, formatDate, toast, api, el, iconNode, config };
 })(window);

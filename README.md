@@ -104,7 +104,7 @@ test/e2e.test.js     uji otomatis
 
 | Metode | Path | Fungsi |
 |---|---|---|
-| GET | `/api/config` | Batas & fitur yang aktif |
+| GET | `/api/config` | Versi aplikasi, batas & fitur yang aktif |
 | POST | `/api/transfers` | Buat kiriman → `{id, token}` |
 | PUT | `/api/transfers/:id/files/:i/chunks/:c` | Unggah potongan terenkripsi (Bearer token) |
 | POST | `/api/transfers/:id/complete` | Tandai selesai, kirim email bila diminta |

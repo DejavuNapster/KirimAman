@@ -15,6 +15,9 @@ const fsp = fs.promises;
 const path = require('path');
 const crypto = require('crypto');
 
+// Satu-satunya sumber nomor versi; naikkan di package.json lalu buat tag git vX.Y.Z.
+const VERSION = require('./package.json').version;
+
 // Muat .env sederhana (KEY=VALUE) bila ada, tanpa menimpa variabel yang sudah diset.
 try {
   const envFile = fs.readFileSync(path.join(__dirname, '.env'), 'utf8');
@@ -215,6 +218,7 @@ function requireUploader(meta, req) {
 // ----------------------------------------------------------------- handler API
 async function getConfig(req, res) {
   send(res, 200, {
+    version: VERSION,
     maxBytes: CONFIG.maxBytes,
     maxFiles: CONFIG.maxFiles,
     expiryDays: CONFIG.expiryDays,
@@ -546,7 +550,7 @@ if (require.main === module) {
   const server = createServer();
   server.requestTimeout = 0; // unggahan besar butuh waktu
   server.listen(CONFIG.port, CONFIG.host, () => {
-    console.log(`KirimAman berjalan di http://localhost:${CONFIG.port}`);
+    console.log(`KirimAman v${VERSION} berjalan di http://localhost:${CONFIG.port}`);
     console.log(`Data disimpan di ${CONFIG.dataDir} · batas ${formatBytes(CONFIG.maxBytes)} · kedaluwarsa ${CONFIG.expiryDays} hari`);
     console.log(`Kirim lewat email: ${emailEnabled() ? 'aktif' : 'nonaktif (isi SMTP_* untuk mengaktifkan)'}`);
   });
@@ -554,4 +558,4 @@ if (require.main === module) {
   setInterval(cleanup, 3600_000).unref();
 }
 
-module.exports = { createServer, CONFIG, CHUNK_SIZE, TAG_SIZE };
+module.exports = { createServer, CONFIG, CHUNK_SIZE, TAG_SIZE, VERSION };

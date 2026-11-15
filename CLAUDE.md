@@ -39,6 +39,8 @@ npm test      # node test/e2e.test.js
 
 **Frontend.** Pages load plain `<script>` tags in order: `crypto.js` → `common.js` → `send.js` (from `index.html`) or `download.js` (from `download.html`). Shared helpers live on `window.KA` (`api`, `el`, `toast`, `formatBytes`, `formatDate`, `iconNode`). The crypto module is on `window.KACrypto`. The UI reads limits at runtime from `GET /api/config` and fills elements marked `data-limit`, `data-maxfiles`, etc.
 
+**Versioning.** `package.json` `version` is the only source of the version number. The server reads it into `VERSION` and returns it from `/api/config`. `common.js` fetches the config once per page (`KA.config`, also used by `send.js`) and fills the footer's `[data-version]` element. To release: bump `package.json`, commit, then create an annotated tag `vX.Y.Z` on that commit and push it with `git push origin main --follow-tags`.
+
 ## Deployment notes
 
 Docker image: `node:22-alpine`, data volume at `/data`. Behind Nginx, set `TRUST_PROXY=1` (rate limiting then uses `X-Forwarded-For`), `client_max_body_size` ≥ ~8m, and `proxy_request_buffering off`. If nginx has a `proxy_cache` active (aaPanel enables one globally in `proxy.conf`), nginx drops `Range` headers. The vhost therefore needs `proxy_cache off`, otherwise chunked downloads get 200 instead of 206.

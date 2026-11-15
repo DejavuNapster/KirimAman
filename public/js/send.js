@@ -16,7 +16,7 @@
   const EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[^\s@<>()",;:]{2,}$/;
 
   // ------------------------------------------------------------ konfigurasi
-  api('/api/config')
+  window.KA.config
     .then((cfg) => {
       state.config = cfg;
       document.querySelectorAll('[data-limit]').forEach((n) => (n.textContent = formatBytes(cfg.maxBytes)));
