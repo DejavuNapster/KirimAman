@@ -5,38 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KirimAman — Kirim file besar secara privat</title>
   <meta name="description" content="Kirim file hingga 5 GB dengan enkripsi end-to-end. Tanpa akun, tautan kedaluwarsa otomatis.">
-  <meta name="theme-color" content="#f6f1e9">
+  <meta name="theme-color" content="#f1ece2">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=1.1">
 </head>
-<body>
+<body class="home">
   <header class="topbar">
     <a class="brand" href="/" aria-label="KirimAman, beranda">
       <img src="/favicon.svg" alt="" width="28" height="28">
       <span>Kirim<b>Aman</b></span>
     </a>
-    <span class="badge-e2e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="11" rx="2.5"/></svg>Terenkripsi end-to-end</span>
+    <span class="badge-e2e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="11" rx="2.5"/></svg>Tanpa akun, tanpa iklan</span>
   </header>
 
   <main class="layout">
     <section class="intro">
-      <p class="eyebrow">Kirim file tanpa akun</p>
-      <h1>File Anda tetap <em>milik Anda</em>, bahkan saat dikirim.</h1>
-      <p class="lede">Seret file ke kotak di samping, lalu bagikan tautannya. File dikunci di perangkat Anda sebelum diunggah. Server kami hanya menyimpan data acak yang tidak bisa dibaca.</p>
-      <ul class="points">
-        <li><span class="dot">1</span><div><b>Terkunci di perangkat Anda</b>Enkripsi AES-256 berjalan di browser. Kuncinya hanya ada di tautan.</div></li>
-        <li><span class="dot">2</span><div><b>Hingga <span data-limit>5 GB</span> sekali kirim</b>Maksimal <span data-maxfiles>100</span> file atau folder, semua format.</div></li>
-        <li><span class="dot">3</span><div><b>Hilang dengan sendirinya</b>Tautan dan file dihapus otomatis setelah <span data-expiry>15</span> hari.</div></li>
-      </ul>
+      <h1>Kirim file besar. <span>Hanya penerima yang bisa membukanya.</span></h1>
+      <p class="lede">File dikunci di browser Anda sebelum diunggah. Kami cuma menyimpan data acak, dan itu pun terhapus sendiri setelah <span data-expiry>15</span> hari.</p>
     </section>
 
-    <section class="card" aria-live="polite">
+    <section class="card parcel" aria-live="polite">
+      <div class="parcel-label">
+        <span class="parcel-tag">Label kiriman</span>
+        <span class="parcel-limits">≤ <span data-limit>5 GB</span> · ≤ <span data-maxfiles>100</span> file · <span data-expiry>15</span> hari</span>
+      </div>
+      <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+        <defs><path id="sealPath" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs>
+        <circle cx="60" cy="60" r="57" class="seal-disc"/>
+        <circle cx="60" cy="60" r="51" class="seal-line"/>
+        <circle cx="60" cy="60" r="31" class="seal-line"/>
+        <text class="seal-text"><textPath href="#sealPath" textLength="272" lengthAdjust="spacing">DISEGEL DI PERANGKAT ANDA · AES-256 ·</textPath></text>
+        <g class="seal-lock" transform="translate(46 44) scale(1.17)"><path d="M7 10V7a5 5 0 0 1 10 0v3"/><rect x="4" y="10" width="16" height="11" rx="2.5"/></g>
+      </svg>
+
       <!-- Tahap 1: susun kiriman -->
       <form id="compose" class="stage" novalidate>
         <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Pilih file untuk dikirim">
-          <div class="dz-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></div>
-          <p class="dz-title">Seret file ke sini</p>
-          <p class="dz-sub">atau <u>pilih file</u> · <button type="button" class="linkish" id="pickFolder">pilih folder</button></p>
+          <div class="dz-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div>
+          <div class="dz-text">
+            <p class="dz-title">Taruh file atau folder di sini</p>
+            <p class="dz-sub">atau <u>pilih file</u> · <button type="button" class="linkish" id="pickFolder">pilih folder</button></p>
+          </div>
         </div>
 
         <div id="filesPanel" class="files-panel" hidden>
@@ -117,6 +126,36 @@
       </div>
     </section>
   </main>
+
+  <section class="route" aria-labelledby="routeTitle">
+    <h2 id="routeTitle">Perjalanan sebuah kiriman</h2>
+    <ol class="route-stops">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M1.5 20h21"/></svg>
+        <span class="route-where">Di perangkat Anda</span>
+        <p>File dipotong per 4 MB dan dikunci dengan AES-256. Kuncinya dibuat di sini dan tidak ikut diunggah.</p>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="7" rx="1.5"/><rect x="4" y="14" width="16" height="7" rx="1.5"/><path d="M8 6.5h.01M8 17.5h.01"/></svg>
+        <span class="route-where">Di server</span>
+        <p>Yang tiba hanya data acak. Nama file, ukuran, dan catatan Anda ikut terkunci.</p>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l3-8h10l3 8v6H4z"/><path d="M4 13h5l1 2h4l1-2h5"/></svg>
+        <span class="route-where">Di penerima</span>
+        <p>Browser penerima membuka kuncinya memakai bagian tautan setelah tanda <code>#</code>.</p>
+      </li>
+    </ol>
+
+    <figure class="anatomy">
+      <figcaption>Begini bentuk tautannya:</figcaption>
+      <p class="anatomy-url"><span class="u-base">https://…/d/</span><span class="u-id">aB3xK9pQ7r</span><span class="u-key">#Zm9vYmFyLWtvbmNpLXJhaGFzaWE</span></p>
+      <div class="anatomy-notes">
+        <p class="n-id"><b>ID kiriman</b> Dikirim ke server untuk mencari file.</p>
+        <p class="n-key"><b>Kunci</b> Browser tidak pernah mengirim bagian setelah <code>#</code> ke server mana pun.</p>
+      </div>
+    </figure>
+  </section>
 
   <footer class="foot">
     <p>Server tidak pernah melihat isi, nama file, maupun kunci Anda. File dihapus otomatis saat tautan kedaluwarsa.</p>
