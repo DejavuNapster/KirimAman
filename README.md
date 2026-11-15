@@ -11,6 +11,22 @@ Aplikasi web untuk mengirim file besar secara privat lewat **tautan** atau **ema
 - Halaman unduh menampilkan daftar file, catatan pengirim, tanggal kedaluwarsa, tombol unduh per file, dan "Unduh semua". Di Chrome/Edge, file ditulis langsung ke disk, jadi file besar tidak memenuhi memori.
 - Server tanpa dependensi wajib (Node.js murni). `nodemailer` hanya dipakai untuk fitur email.
 
+## Tampilan
+
+![Halaman utama KirimAman: judul "Kirim file besar. Hanya penerima yang bisa membukanya." di kiri, kartu kirim bergaya label paket dengan segel merah di kanan](docs/screenshots/beranda-desktop.png)
+
+<table>
+  <tr>
+    <td align="center" width="33%"><img src="docs/screenshots/kirim-file-dipilih.png" alt="Empat file dipilih beserta catatan untuk penerima"><br><sub><b>1. Pilih file</b>, tambahkan catatan</sub></td>
+    <td align="center" width="33%"><img src="docs/screenshots/kirim-proses.png" alt="Proses enkripsi dan unggah 42%, dengan kecepatan dan sisa waktu"><br><sub><b>2. Dienkripsi &amp; diunggah</b> di browser</sub></td>
+    <td align="center" width="33%"><img src="docs/screenshots/kirim-tautan-siap.png" alt="Tautan siap dibagikan dengan tombol Salin"><br><sub><b>3. Tautan siap</b> dibagikan</sub></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="docs/screenshots/unduh.png" alt="Halaman unduh: catatan pengirim, daftar empat file, dan tombol Unduh semua"><br><sub><b>4. Halaman unduh</b> penerima: file didekripsi di perangkatnya</sub></td>
+    <td align="center"><img src="docs/screenshots/beranda-hp.png" alt="Halaman utama di layar HP" width="240"><br><sub>Tampilan di HP</sub></td>
+  </tr>
+</table>
+
 ## Menjalankan di komputer sendiri
 
 Butuh Node.js 18.17 atau lebih baru.
@@ -98,6 +114,7 @@ public/js/crypto.js  enkripsi end-to-end (dipakai browser & uji)
 public/js/send.js    logika unggah
 public/js/download.js logika unduh & dekripsi
 test/e2e.test.js     uji otomatis
+docs/screenshots/    gambar tampilan untuk README
 ```
 
 ## API (ringkas)
